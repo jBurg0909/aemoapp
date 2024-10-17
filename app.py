@@ -6,13 +6,13 @@ import io
 import os
 import zipfile
 
-aemoapp = Flask(__name__)
+app = Flask(__name__)
 
-@aemoapp.route("/")
+@app.route("/")
 def index():
     return "Hello, I'm Jack"
 
-@aemoapp.route("/<name>")
+@app.route("/<name>")
 def print_name(name):
     return f"Hi {name}"
 
@@ -61,7 +61,7 @@ def download_and_extract_csv(zip_url):
         print(f"Error downloading or extracting CSV: {e}")
         return None
 
-@aemoapp.route('/api/data', methods=['GET'])
+@app.route('/api/data', methods=['GET'])
 def get_aemo_data():
     """
     API endpoint to fetch the latest operational demand forecast data.
@@ -86,4 +86,4 @@ def get_aemo_data():
         return make_response(jsonify({"error": "Failed to download or extract CSV data"}), 500)
 
 if __name__ == '__main__':
-    aemoapp.run(debug=True)
+    app.run(debug=True)
