@@ -79,9 +79,13 @@ def get_aemo_data():
     df = download_and_extract_csv(latest_zip)
     
     if df is not None:
-        # Convert DataFrame to JSON
-        json_data = df.to_json(orient='records', lines=True)
-        return make_response(json_data, 200)
+        # Convert DataFrame to CSV
+        csv_data = df.to_csv(index=False)
+        # Create a response object with the CSV data
+        response = make_response(csv_data)
+        response.headers["Content-Disposition"] = "attachment; filename=data.csv"
+        response.headers["Content-Type"] = "text/csv"
+        return response
     else:
         return make_response(jsonify({"error": "Failed to download or extract CSV data"}), 500)
 
